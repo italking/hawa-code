@@ -35,7 +35,8 @@ npm install -g  @dahawa/hawa-code
       "BASE_URL": "https://openrouter.ai/api/v1",
       "AUTH_TOKEN": "sk-or-v1-{ 使用自己的 token }",
       "MODEL": "anthropic/claude-sonnet-4",
-      "SMALL_FAST_MODEL": "anthropic/claude-sonnet-4"
+      "SMALL_FAST_MODEL": "anthropic/claude-sonnet-4",
+      "API_TYPE":"openai"
     }
   }
 }
@@ -44,3 +45,13 @@ npm install -g  @dahawa/hawa-code
 ```
 hcode
 ```
+4、Windows 使用
+在 Windows 系统上使用，需配置如下环境变量，其指向 git bash , 同时确保已经安装了 git。
+
+```
+HCODE_GIT_BASH_PATH={git 安装目录}\bin\bash.exe
+```
+环境变量配置方式
+- 直接使用 Windows 操作系统进行配置
+- 上述 config.json env 属性中进行配置
+- 项目路径/.hcode/.evn 文件中进行配置
