@@ -1,5 +1,19 @@
 # Hawa Code 一个懂你的、智能编程助手
 官网：[https://www.hawacode.com](https://www.hawacode.com "一个懂你的、智能编程助手")
+## 功能介绍 
+代码理解
+可以理解复杂代码库，上下文感知理解。自动读取、分析整个项目结构并自主开发，提供相关解决方案。
+
+全栈开发
+前后端代码一站式开发，从零构建复杂的系统工程，自动构建项目代码、数据库开发。
+
+多模型支持
+支持多种模型调用，用户可以自主选择自己业务匹配和经济实惠的模型。
+
+插件集成
+支持 MCP、用户自定义 Command 、 Skill、Subagent ，灵活扩展 。
+
+
 ## 安装
 1、执行安装命令
 ```
@@ -10,35 +24,36 @@ npm install -g  @dahawa/hawa-code
 - 配置文件路径：~/.hcode/config.json
 ```
 {
-  "kimi-k2": {
-    "enable": true,
-    "env": {
-      "BASE_URL": "https://api.moonshot.cn/anthropic",
-      "AUTH_TOKEN": "sk-{ 使用自己的 token }",
-      "MODEL": "kimi-k2-0905-preview",
-      "SMALL_FAST_MODEL": "kimi-k2-0905-preview"
+  "sources": {
+    "openai": {
+      "base_url": "https://api.openai.com/v1",
+      "auth_token": "{apikey}",
+      "api_type": "openai",
+      "models": ["gpt-5.5", "gpt-5.4-mini"]
+    },
+    "kimi": {
+      "base_url": "https://api.kimi.com/coding",
+      "auth_token": "{apikey}",
+      "api_type": "anthropic",
+      "models": ["K2.5", "K2.6"]
+    },
+    "qwen-coding": {
+      "base_url": "https://coding.dashscope.aliyuncs.com/apps/anthropic",
+      "auth_token": "{apikey}",
+      "api_type": "anthropic",
+      "models": ["qwen3-coder-plus"]
     }
   },
-  "deepseek": {
-    "enable": false,
-    "env": {
-      "BASE_URL": "https://api.deepseek.com/anthropic",
-      "AUTH_TOKEN": "sk-{ 使用自己的 token }",
-      "API_TIMEOUT_MS": "600000",
-      "MODEL": "deepseek-chat",
-      "SMALL_FAST_MODEL": "deepseek-chat",
-      "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
-    }
-  },
-  "openrouter": {
-    "enable": false,
-    "env": {
-      "BASE_URL": "https://openrouter.ai/api/v1",
-      "AUTH_TOKEN": "sk-or-v1-{ 使用自己的 token }",
-      "MODEL": "anthropic/claude-sonnet-4",
-      "SMALL_FAST_MODEL": "anthropic/claude-sonnet-4",
-      "API_TYPE":"openai"
-    }
+
+  "routing": {
+    "MODEL": [
+      { "source": "kimi", "model": "K2.6", "weight": 60 },
+      { "source": "openai", "model": "gpt-5.5", "weight": 40 }
+    ],
+    "SMALL_FAST_MODEL": [
+      { "source": "qwen-coding", "model": "qwen3-coder-plus", "weight": 50 },
+      { "source": "kimi", "model": "K2.5", "weight": 50 }
+    ]
   }
 }
 ```
@@ -46,13 +61,13 @@ npm install -g  @dahawa/hawa-code
 ```
 hcode
 ```
-4、Windows 使用
-在 Windows 系统上使用，需配置如下环境变量，其指向 git bash , 同时确保已经安装了 git。
+4、Windows 
+Hawa Code 完全兼容 Windows ，在 Windows 使用默认使用 PowerShell ，用户指令、Skill、斜杠命令中使用的脚本都需要是 PowerShell。
+如果要在 Windows 系统上使用 Shell，需配置如下环境变量，其指向 git bash , 同时确保已经安装了 git。
 
 ```
-HCODE_GIT_BASH_PATH={git 安装目录}\bin\bash.exe
+HAWA_CODE_GIT_BASH_PATH={git 安装目录}\bin\bash.exe
 ```
 环境变量配置方式
-- 直接使用 Windows 操作系统进行配置
-- 上述 config.json env 属性中进行配置
-- 项目路径/.hcode/.evn 文件中进行配置
+- 直接在 `~/.hcode/settings.json` 的 `env` 字段中配置（推荐）
+
